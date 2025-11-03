@@ -81,3 +81,4 @@ Workflow: write a failing test, implement the minimal change in `backend/server.
 
 
 # ascension
+adk run seq_adk_agent

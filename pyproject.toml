@@ -8,6 +8,11 @@ dependencies = [
     "starlette>=0.46.2",
     "uvicorn>=0.34.2",
     "httpx>=0.28.1",
+    "google-adk>=1.0.0",
+    "python-dotenv>=1.0.1",
+    "litellm>=1.0.0",
+    "exa-py>=1.0.0",
+    "tavily-python>=0.5.0",
 ]
 
 [build-system]

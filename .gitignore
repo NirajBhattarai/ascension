@@ -1,0 +1,57 @@
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+backend/.venv/
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Test, coverage, and tooling caches
+.pytest_cache/
+.coverage*
+coverage.xml
+.mypy_cache/
+.ruff_cache/
+.tox/
+.cache/
+
+# IDE/editor configs
+.vscode/
+.idea/
+.history/
+
+# Environment and secrets
+.env
+.env.*
+.envrc
+*.key
+*.pem
+*.crt
+*.pfx
+secrets*/
+
+# Logs
+*.log
+logs/
+
+# Jupyter/IPython
+.ipynb_checkpoints/
+
+# Python version managers
+.python-version
+
