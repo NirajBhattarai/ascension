@@ -1,4 +1,5 @@
 import os
+import asyncio
 
 from dotenv import load_dotenv
 from google.adk.runners import Runner
@@ -110,7 +111,7 @@ Show a clean, structured summary (can use tables or emojis 🏏🤖📢). Make i
     output_key="final_summary"
 )
 # Runner setup
-APP_NAME = "multi_news_pipeline"
+APP_NAME = "agents"
 USER_ID = "vscode_user"
 SESSION_ID = "vscode_session"
 
@@ -122,7 +123,8 @@ pipeline = SequentialAgent(
 )
 
 session_service = InMemorySessionService()
-session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID)
+# create_session is async in ADK; ensure it's awaited when running as a script
+asyncio.run(session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID))
 
 runner = Runner(agent=pipeline, app_name=APP_NAME, session_service=session_service)
 

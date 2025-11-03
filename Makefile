@@ -1,34 +1,30 @@
-PYTHON=python3
-VENV=.venv
-PIP=$(VENV)/bin/pip
-PY=$(VENV)/bin/python
-PYTEST=$(VENV)/bin/pytest
+UV=uv
 
-.PHONY: venv install dev-install run test clean format
+.PHONY: uv-venv uv-sync install run run-agent test clean format
 
-venv:
-	$(PYTHON) -m venv $(VENV)
-	$(PIP) install --upgrade pip
+uv-venv:
+	$(UV) venv --python 3.11 || true
 
-install: venv
-	$(PIP) install .
-	$(PIP) install pytest
+uv-sync: uv-venv
+	$(UV) sync --all-extras --dev
 
-dev-install: venv
-	$(PIP) install black isort
+install: uv-sync
 
-run: install
-	$(PY) backend/server/server.py
+run: uv-sync
+	$(UV) run python backend/server/server.py
 
-test: install
-	$(PYTEST) -q
+run-agent: uv-sync
+	$(UV) run python backend/agent.py
 
-format: dev-install
-	$(VENV)/bin/isort backend
-	$(VENV)/bin/black backend
+test: uv-sync
+	$(UV) run pytest -q
+
+format: uv-sync
+	$(UV) run isort backend
+	$(UV) run black backend
 
 clean:
-	rm -rf $(VENV)
+	rm -rf .venv
 	find . -name "__pycache__" -type d -exec rm -rf {} +
 
 

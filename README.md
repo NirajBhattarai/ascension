@@ -17,31 +17,42 @@ backend/
 
 Use `tests/` for TDD; keep code minimal until tests drive implementation.
 
-### Setup (virtual environment)
+### Setup
 
 macOS/Linux (zsh/bash):
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-# Install project dependencies defined in pyproject.toml
-pip install .
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv venv --python 3.11
+uv sync --all-extras --dev
 ```
 
 Windows (PowerShell):
 
 ```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install .
+irm https://astral.sh/uv/install.ps1 | iex
+uv venv --python 3.11
+uv sync --all-extras --dev
 ```
 
-### Run
+### Run server
 
 ```bash
-python backend/server.py
+# With uv
+make run
+
+# Direct (without Makefile)
+uv run python backend/server/server.py
+```
+
+### Run agent (simulate pipeline)
+
+```bash
+# With uv
+make run-agent
+
+# Direct (without Makefile)
+uv run python backend/agent.py
 ```
 
 ### Endpoint
@@ -50,13 +61,7 @@ python backend/server.py
 
 ### Test-Driven Development (TDD)
 
-1) Install test tools in your venv:
-
-```bash
-pip install pytest
-```
-
-2) Create `tests/test_health.py` with a minimal test:
+1) Create `tests/test_health.py` with a minimal test:
 
 ```python
 from starlette.testclient import TestClient
@@ -70,10 +75,12 @@ def test_health_ok():
     assert response.json() == {"status": "ok"}
 ```
 
-3) Run tests:
+2) Run tests:
 
 ```bash
-pytest -q
+make test
+# or
+uv run pytest -q
 ```
 
 Workflow: write a failing test, implement the minimal change in `backend/server.py`, run tests, and refactor as needed.
