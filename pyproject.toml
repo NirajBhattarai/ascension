@@ -1,0 +1,17 @@
+[project]
+name = "ascension-backend"
+version = "0.1.0"
+description = "Minimal Starlette server for Ascension"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "starlette>=0.46.2",
+    "uvicorn>=0.34.2",
+    "httpx>=0.28.1",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
