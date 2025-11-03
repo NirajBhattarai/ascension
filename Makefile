@@ -4,7 +4,7 @@ PIP=$(VENV)/bin/pip
 PY=$(VENV)/bin/python
 PYTEST=$(VENV)/bin/pytest
 
-.PHONY: venv install run test clean
+.PHONY: venv install dev-install run test clean format
 
 venv:
 	$(PYTHON) -m venv $(VENV)
@@ -14,11 +14,18 @@ install: venv
 	$(PIP) install .
 	$(PIP) install pytest
 
+dev-install: venv
+	$(PIP) install black isort
+
 run: install
 	$(PY) backend/server/server.py
 
 test: install
 	$(PYTEST) -q
+
+format: dev-install
+	$(VENV)/bin/isort backend
+	$(VENV)/bin/black backend
 
 clean:
 	rm -rf $(VENV)
