@@ -1,11 +1,16 @@
-import os
 import asyncio
+import os
 
 from dotenv import load_dotenv
 from google.adk.runners import Runner
 
 # Load keys
 load_dotenv()
+from a2a.types import (
+    AgentCapabilities,
+    AgentCard,
+    AgentSkill,
+)
 from google.adk.agents import Agent
 from google.adk.agents.llm_agent import LlmAgent
 from google.adk.agents.sequential_agent import SequentialAgent
@@ -93,6 +98,81 @@ tavily_agent = Agent(
     instruction="Use the tavily_search_hn tool to retrieve AI-related news from Hacker News posted in the last 24 hours.",
     tools=[tavily_search_hn, log_message],
     output_key="tavily_news"
+)
+
+exa_agent_skill = AgentSkill(
+    id="exa_search_ipl",
+    name="Exa Search IPL",
+    description="Search IPL for news",
+    examples=[
+        "Search IPL for news",
+    ],
+    input_modes=[
+        "text",
+    ],
+    output_modes=[
+        "text",
+    ],
+    security=[
+        {
+            "tags": ["ai"],
+        }
+    ],
+    tags=["ai"],
+)
+
+travily_agent_skill = AgentSkill(
+    id="tavily_search_hn",
+    name="Tavily Search Hacker News",
+    description="Search Hacker News for AI-related news",
+    examples=[
+        "Search Hacker News for AI-related news",
+    ],
+    input_modes=[
+        "text",
+    ],
+    output_modes=[
+        "text",
+    ],
+    security=[
+        {
+            "tags": ["ai"],
+        }
+    ],
+    tags=["ai"],
+)
+
+# class AgentCard(
+#     *,
+#     additional_interfaces: list[AgentInterface] | None = None,
+#     capabilities: AgentCapabilities,
+#     default_input_modes: list[str],
+#     default_output_modes: list[str],
+#     description: str,
+#     documentation_url: str | None = None,
+#     icon_url: str | None = None,
+#     name: str,
+#     preferred_transport: str | None = 'JSONRPC',
+#     protocol_version: str | None = '0.3.0',
+#     provider: AgentProvider | None = None,
+#     security: list[dict[str, list[str]]] | None = None,
+#  signatures: list[AgentCardSignature] | None = None,
+#     skills: list[AgentSkill],
+#     supports_authenticated_extended_card: bool | None = None,
+#     url: str,
+#     version: str
+
+
+travily_agent_card = AgentCard(
+    id="tavily_search_hn",
+    name="Tavily Search Hacker News",
+    description="Search Hacker News for AI-related news",
+    skills=[travily_agent_skill],
+    url="https://tavily.com",
+    version="0.1.0",
+    default_input_modes=['text'],
+    default_output_modes=['text'],
+    capabilities=AgentCapabilities(streaming=True),
 )
 
 # Agents 3
